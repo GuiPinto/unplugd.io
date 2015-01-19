@@ -10,7 +10,7 @@ var exphbs  = require('express3-handlebars');
 var SocketsController = require('./controllers').sockets;
 
 var app = express();
-var server = app.listen(3000);
+var server = app.listen(process.env.PORT || 3000);
 var io = require('socket.io').listen(server);
 
 app.engine('handlebars', exphbs({
@@ -47,4 +47,4 @@ io.on('connection', function(socket){
 });
 
 
-console.log("Express server listening on port 3000");
+console.log("Express server listening on port " + (process.env.PORT || 3000));
