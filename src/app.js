@@ -1,19 +1,15 @@
-/**
- * Module dependencies.
- */
+var WebSocketServer = require('ws').Server
+, http = require('http')
+, express = require('express')
+, exphbs  = require('express3-handlebars')
+, app = express()
+, routes = require('./routes/routes');;
 
-var express = require('express')
-  , routes = require('./routes/routes')
-  , http = require('http');
-var exphbs  = require('express3-handlebars');
-
-var SocketsController = require('./controllers').sockets;
-
-var app = express();
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
 
 server.listen(process.env.PORT || 3000);
+
+var wss = new WebSocketServer({server: server});
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
@@ -38,15 +34,19 @@ app.configure('development', function(){
 
 routes(app);
 
-// Heroku setting for long polling - assuming io is the Socket.IO server object
-io.set("transports", ["xhr-polling"]);
-io.set("polling duration", 10);
+wss.on('connection', function(ws) {
+  var id = setInterval(function() {
+    var dataToSend = JSON.stringify(new Date());
+    console.log('sending ', dataToSend, 'to', id);
+    ws.send(dataToSend, function() {  })
+  }, 1000)
 
-io.on('connection', function(socket){
+  console.log("websocket connection open")
 
-    SocketsController.initSocket(io, socket);
-
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
 });
-
 
 console.log("Express server listening on port " + (process.env.PORT || 3000));
