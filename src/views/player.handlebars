@@ -1,0 +1,168 @@
+	<style>
+		body {
+			background-color: transparent;
+			color: white;
+			margin: 0;
+			padding: 0;
+		}
+		.text {
+			display: block;
+			width: 620px;
+			height: 120px;
+		}
+		.text span {
+			display: block;
+			margin: 25px;
+			text-align: center;
+			color: #333;
+			font-size: 20px;
+		}
+		.alert {
+			color: red;
+			display: block;
+			position: absolute;
+			background-color: #8AC007;
+			top: 0;
+			left: 0;
+			width: 600px;
+			margin: 0 10px;
+			margin-top: -80px;
+			transition: margin 0.7s ease-in-out;
+			border-bottom-left-radius: 0.5em;
+			border-bottom-right-radius: 0.5em;
+		}
+		.alert span {
+			display: block;
+			line-height: 150%;
+			color: #fff;
+			font-size: 28px;
+			text-align: center;
+		}
+		.alert.open {
+			margin-top: 0;
+		}
+
+		.display-modes {
+
+		}
+		.display-modes .mode {
+			display: none;
+		}
+	</style>
+
+
+
+	<div class="display-modes">
+
+		<div class="mode subscriber-alert">
+			<div class="textz" id="new-subscriber"></div>
+		</div>
+		<div class="mode img">
+			<img src="" />
+		</div>
+		<div class="mode text">
+			<span></span>
+		</div>
+
+		<div class="alert">
+			<span></span>
+		</div>
+
+	</div>
+
+	<script type="text/javascript" language="javascript">
+
+		var socket = io();
+
+		socket.on('connect', function () {
+			console.log("Connected to Socket Server");
+		});
+
+		socket.on('display_ad', function (ad) {
+			displayAd(ad);
+		});
+
+		socket.on('display_alert', function (alert) {
+			displayAlert(alert);
+		});
+
+		$(document).ready(function() {
+
+			var channel = 'test';
+
+			if(channel) {
+
+				socket.on('hithere', function () {
+					console.log("Joining channel");
+					socket.emit('join', channel);
+				});
+
+				socket.on('much connect', function () {
+					console.log("Connected to channel socket");
+				});
+
+			}
+		});
+
+
+		function displayAd(ad) {
+			console.log('displayAd', ad);
+
+			var displayMode = $(".display-modes ." + ad.type);
+			$(".display-modes .mode").not(displayMode).hide();
+			displayMode.show();
+
+			switch(ad.type) {
+				case 'img':
+					$("img", displayMode).attr('src', ad.src);
+				break;
+				case 'text':
+					displayMode.addClass('open');
+					$("span", displayMode).text(ad.text);
+				break;
+			}
+
+		}
+
+		var alertQueue = [];
+		var alertQueueProcessing = false;
+		function displayAlert(alert) {
+			console.log('displayAlert', alert);
+
+			alertQueue.push(alert);
+
+			if (!alertQueueProcessing) {
+				alertQueueProcessing = true;
+				processAlertQueue();
+			}
+		}
+
+		var alertOpenTime = 5000;
+		var alertTimeBetween = 1000;
+		function processAlertQueue() {
+
+			if (alertQueue.length == 0) return;
+
+			var alert = alertQueue.pop();
+
+			var alertBox = $(".display-modes .alert");
+			var alertText = $("span", alertBox);
+
+			alertText.text(alert.text);
+			alertBox.addClass('open');
+
+			setTimeout(function() {
+				alertBox.removeClass('open');
+
+				if (alertQueue.length > 0) {
+
+					setTimeout(processAlertQueue, alertTimeBetween);
+
+				} else {
+					alertQueueProcessing = false;
+				}
+			}, alertOpenTime);
+
+		}
+
+	</script>
