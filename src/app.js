@@ -13,7 +13,9 @@ var WebSocketServer = websocket.Server;
 var server = http.createServer(app);
 server.listen(process.env.PORT || 3000);
 
-var wss = new WebSocketServer({server: server});
+var io = require('socket.io')(server);
+
+//var wss = new WebSocketServer({server: server});
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
@@ -38,8 +40,8 @@ app.configure('development', function(){
 
 routes(app);
 
-wss.on('connection', function(ws) {
-    socketsController.init(ws);
+io.on('connection', function(socket){
+    console.log("CONNECT!!");
 });
 
 console.log("Express server listening on port " + (process.env.PORT || 3000));
