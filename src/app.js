@@ -10,8 +10,10 @@ var exphbs  = require('express3-handlebars');
 var SocketsController = require('./controllers').sockets;
 
 var app = express();
-var server = app.listen(process.env.PORT || 3000);
+var server = http.createServer(app);
 var io = require('socket.io').listen(server);
+
+server.listen(process.env.PORT || 3000);
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
