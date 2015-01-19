@@ -2,7 +2,9 @@ var http = require('http'),
     express = require('express'),
     exphbs  = require('express3-handlebars'),
     websocket  = require('ws'),
-    routes = require('./routes/routes');
+    path = require('path'),
+    routes = require('./routes/routes'),
+    socketsController = require('./controllers').sockets;
 
 var app = express();
 
@@ -24,7 +26,7 @@ app.configure(function(){
     app.set('view engine', 'handlebars');
     app.use(express.favicon());
     app.use(express.logger('dev'));
-    app.use(express.static(__dirname + '/public'));
+    app.use(express["static"](path.join(__dirname, '../static')));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
@@ -37,18 +39,7 @@ app.configure('development', function(){
 routes(app);
 
 wss.on('connection', function(ws) {
-  var id = setInterval(function() {
-    var dataToSend = JSON.stringify(new Date());
-    console.log('sending ', dataToSend, 'to', id);
-    ws.send(dataToSend, function() {  })
-  }, 1000)
-
-  console.log("websocket connection open")
-
-  ws.on("close", function() {
-    console.log("websocket connection close")
-    clearInterval(id)
-  })
+    socketsController.init(ws);
 });
 
 console.log("Express server listening on port " + (process.env.PORT || 3000));
