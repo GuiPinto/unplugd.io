@@ -36,6 +36,10 @@ app.configure('development', function(){
 
 routes(app);
 
+// Heroku setting for long polling - assuming io is the Socket.IO server object
+io.set("transports", ["xhr-polling"]);
+io.set("polling duration", 10);
+
 io.on('connection', function(socket){
 
     SocketsController.initSocket(io, socket);
