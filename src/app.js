@@ -41,7 +41,7 @@ app.configure('development', function(){
 routes(app);
 
 io.on('connection', function(socket){
-    console.log("CONNECT!!");
+    socketsController.init(io, socket);
 });
 
 console.log("Express server listening on port " + (process.env.PORT || 3000));

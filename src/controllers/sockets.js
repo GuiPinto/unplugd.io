@@ -1,22 +1,29 @@
 var coreData = {};
 var clockInterval = 2000;
 
-module.exports.init = function (ws) {
+module.exports.init = function (io, socket) {
 
-	console.log('init!', ws.id);
+	var socketId = socket.id;
+
+	//io.set("transports", ["polling"]);
+	//io.set("polling duration", 10);
+
+	socket.on('disconnect', function() {
+		console.log('DISCONNECT, socketId:', socket.id);
+	});
+
+    socket.on('join', function(publisherId){
+        console.log('JOIN, publisherId:',publisherId);
+        io.emit('much connect');
+    });
+
+    // Initialize conversation
+    io.emit('hithere');
+
 	var id = setInterval(function() {
 		var dataToSend = JSON.stringify(new Date());
 		console.log('sending ', dataToSend, 'to', id);
-		ws.send(dataToSend, function() {  })
+		io.emit('time', dataToSend);
 	}, 1000)
-
-	console.log("websocket connection open")
-
-	ws.on("close", function() {
-		console.log("websocket connection close")
-		clearInterval(id)
-	})
-
-	// Sent initial
 
 };
