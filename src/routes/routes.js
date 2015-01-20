@@ -5,8 +5,8 @@ var main = controllers.main;
 
 module.exports = function(app, io){
 
-	app.get('/song', function(req, res) {
-		return main.newSong(req, res, io);
+	app.post('/songChange', function(req, res) {
+		return main.songChange(req, res, io);
 	});
 
 	app.get('/', main.player);
