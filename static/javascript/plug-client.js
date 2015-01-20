@@ -12,9 +12,17 @@ function checkForSongChange() {
 
      if ( JSON.stringify(media) != JSON.stringify(prevMedia) ) {
           prevMedia = JSON.parse(JSON.stringify(media));
-          console.log("Song Change!", media);
-     } else {
-          console.log("same song..");
+          var nowPlaying = history[0];
+          console.log("Song Change!", nowPlaying);
+
+          $.ajax({
+               url: "https://unplugd.herokuapp.com/songChange",
+               dataType: 'jsonp',
+               data: {
+                    'now_playing': JSON.stringify(nowPlaying)
+               }
+          });
      }
+
 }
 setInterval(checkForSongChange, 500);
