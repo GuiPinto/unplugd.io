@@ -1,12 +1,14 @@
 var env = process.env.NODE_ENV || 'development';
 var controllers = require('../controllers');
 var ripper = controllers.ripper;
-var sockets = controllers.sockets;
+var main = controllers.main;
 
-module.exports = function(app){
+module.exports = function(app, io){
 
-	app.get('/', function(req, res) {
-		res.render('player');
+	app.get('/song', function(req, res) {
+		return main.newSong(req, res, io);
 	});
+
+	app.get('/', main.player);
 
 };

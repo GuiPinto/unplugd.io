@@ -1,21 +1,16 @@
 var http = require('http'),
     express = require('express'),
     exphbs  = require('express3-handlebars'),
-    websocket  = require('ws'),
     path = require('path'),
     routes = require('./routes/routes'),
-    socketsController = require('./controllers').sockets;
+    mainController = require('./controllers').main;
 
 var app = express();
-
-var WebSocketServer = websocket.Server;
 
 var server = http.createServer(app);
 server.listen(process.env.PORT || 3000);
 
 var io = require('socket.io')(server);
-
-//var wss = new WebSocketServer({server: server});
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
@@ -38,10 +33,10 @@ app.configure('development', function(){
     app.use(express.errorHandler());
 });
 
-routes(app);
+routes(app, io);
 
 io.on('connection', function(socket){
-    socketsController.init(io, socket);
+    mainController.initSocket(io, socket);
 });
 
 console.log("Express server listening on port " + (process.env.PORT || 3000));

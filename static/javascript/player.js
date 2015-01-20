@@ -12,6 +12,10 @@ $( document ).ready(function() {
 		console.log(time);
 	});
 
+	socket.on('hithere', function (data) {
+		console.log(data);
+	});
+
 
 
 });
