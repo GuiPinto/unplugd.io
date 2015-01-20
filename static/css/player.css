@@ -3,7 +3,7 @@ html, body {
 	padding: 0;
 	background-color: #333;
 	color: #fff;
-	font-family: "HelveticaNeue"
+	font-family: "HelveticaNeue", Verdana, Geneva, sans-serif;
 }
 body {
 	text-align: center;
@@ -21,25 +21,42 @@ audio {
 
 .now-playing {
 	text-align: left;
-	margin-bottom: 20px;
+	margin: 0px 20px 20px 20px;
 }
 .now-playing label {
 	display: block;
-	margin-left: 10px;
 }
+
+.play-history {
+	text-align: left;
+	margin: 50px 20px 20px 20px;
+}
+.play-history label {
+	display: block;
+}
+.play-history .history-wrapper {
+	max-height: 360px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+
 .song-box {
 	background-color: #444;
 	border: 1px solid #666;
 	border-radius: 3px;
 	padding: 8px;
 	position: relative;
-	margin: 4px 10px 30px 10px;
+	margin: 5px 0px;
 	overflow: auto;
-	font-size: 14px;
+	font-size: 13px;
 }
 .song-box img {
 	width: 64px;
 	height: 64px;
 	margin-right: 10px;
 	float: left;
+}
+.song-box .title {
+	font-weight: bold;
 }

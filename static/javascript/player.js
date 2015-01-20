@@ -24,6 +24,10 @@ $( document ).ready(function() {
 			updateNowPlaying(data.nowPlaying);
 		}
 
+		if (initData.history) {
+			updateHistory(initData.history);
+		}
+
 	});
 
 
@@ -32,6 +36,10 @@ $( document ).ready(function() {
 
 		if (initData.nowPlaying) {
 			updateNowPlaying(initData.nowPlaying);
+		}
+
+		if (initData.history) {
+			updateHistory(initData.history);
 		}
 
 	}
@@ -46,6 +54,26 @@ $( document ).ready(function() {
 
 		nowPlayingWrapper.html( songTemplate(nowPlayingData) );
 	}
+
+	function updateHistory(historyData) {
+		var historyWrapper = $(".play-history .history-wrapper");
+
+		historyWrapper.html('');
+
+		historyData.forEach(function(historyObj){
+
+			historyObj.imgSrc = '//img.youtube.com/vi/'+historyObj.cid+'/hqdefault.jpg';
+
+			historyWrapper.html(
+				historyWrapper.html() +
+				songTemplate(historyObj)
+			);
+		});
+
+	}
+
+
+
 
 
 });
