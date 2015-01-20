@@ -15,11 +15,16 @@ function checkForSongChange() {
           var nowPlaying = history[0];
           console.log("Song Change!", nowPlaying);
 
+          var songChangeData = [
+               API.getHistory()[0],
+               API.getHistory()[1]
+          ];
+
           $.ajax({
                url: "https://unplugd.herokuapp.com/songChange",
                dataType: 'jsonp',
                data: {
-                    'now_playing': API.getHistory() ? encodeURIComponent(JSON.stringify(API.getHistory()[0])) : null
+                    'now_playing': encodeURIComponent(JSON.stringify(songChangeData))
                }
           });
      }
