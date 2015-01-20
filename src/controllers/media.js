@@ -80,8 +80,8 @@ function processMediaUpdate(mediaData, callback) {
 
 module.exports.generateInitialData = function (callback) {
 
-	Media.find({}, { _id: 0, id: 0, __v: 0 })
-		.sort({ _id: -1 })
+	Media.find({}, { _id: 0, id: 0, __v: 0, user: 0})
+		.sort({played: -1})
 		.limit(21)
 		.exec(function(err, mediaResults) {
 
