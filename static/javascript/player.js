@@ -12,8 +12,12 @@ $( document ).ready(function() {
 		console.log(time);
 	});
 
-	socket.on('hithere', function (data) {
-		console.log(data);
+	socket.on('init', function (data) {
+		console.log('init', data);
+	});
+
+	socket.on('song_change', function (data) {
+		console.log('song_change', data);
 	});
 
 
