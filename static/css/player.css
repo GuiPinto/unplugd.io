@@ -37,7 +37,8 @@ audio {
 .play-history .history-wrapper {
 	max-height: 360px;
 	overflow: hidden;
-	overflow-y: auto;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 
