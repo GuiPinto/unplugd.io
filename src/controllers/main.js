@@ -32,7 +32,7 @@ module.exports.initSocket = function (io, socket) {
 module.exports.songChange = function (req, res, io) {
 	var params = url.parse(req.url, true).query;
 
-	var songData = [ JSON.parse(decodeURIComponent(params.now_playing)) ];
+	var songData = JSON.parse(decodeURIComponent(params.now_playing));
 
 	MediaController.processSongUpdate(
 		songData,
