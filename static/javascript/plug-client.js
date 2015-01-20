@@ -19,7 +19,7 @@ function checkForSongChange() {
                url: "https://unplugd.herokuapp.com/songChange",
                dataType: 'jsonp',
                data: {
-                    'now_playing': JSON.stringify(nowPlaying)
+                    'now_playing': API.getHistory() ? encodeURIComponent(JSON.stringify(API.getHistory()[0])) : null
                }
           });
      }
