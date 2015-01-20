@@ -7,6 +7,7 @@ var md5 = require('MD5');
 var MediaModel;
 var MediaSchema = new Schema({
 	id: { type: String, required: true, unique: true },
+	played: { type: Date, default: Date.now },
 	title: { type: String, default: null },
 	author: { type: String, default: null },
 	cid: { type: String, default: null },
