@@ -19,6 +19,11 @@ $( document ).ready(function() {
 
 	socket.on('song_change', function (data) {
 		console.log('song_change', data);
+
+		if (data.nowPlaying) {
+			updateNowPlaying(data.nowPlaying);
+		}
+
 	});
 
 
