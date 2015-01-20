@@ -53,6 +53,9 @@ module.exports.songChange = function (req, res, io) {
 module.exports.player = function (req, res) {
 	res.render('player');
 }
+module.exports.desktopPlayer = function (req, res) {
+	res.render('desktopPlayer');
+}
 
 
 

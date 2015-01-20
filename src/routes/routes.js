@@ -10,5 +10,6 @@ module.exports = function(app, io){
 	});
 
 	app.get('/', main.player);
+	app.get('/desktop', main.desktopPlayer);
 
 };
