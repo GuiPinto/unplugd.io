@@ -16,8 +16,8 @@ function checkForSongChange() {
           console.log("Song Change!", nowPlaying);
 
           var songChangeData = [
-               API.getHistory()[0],
-               API.getHistory()[1]
+               API.getHistory()[1],
+               API.getHistory()[0]
           ];
 
           $.ajax({

@@ -25,7 +25,9 @@ $( document ).ready(function() {
 
 	function init(initData) {
 
-		updateNowPlaying(initData.nowPlaying);
+		if (initData.nowPlaying) {
+			updateNowPlaying(initData.nowPlaying);
+		}
 
 	}
 
