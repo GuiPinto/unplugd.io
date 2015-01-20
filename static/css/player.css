@@ -19,21 +19,25 @@ audio {
 }
 
 
-.now_playing {
+.now-playing {
 	text-align: left;
 	margin-bottom: 20px;
 }
-.now_playing label {
+.now-playing label {
 	display: block;
 	margin-left: 10px;
 }
-.media {
+.song-box {
 	background-color: #444;
-	padding: 10px;
+	border: 1px solid #666;
+	border-radius: 3px;
+	padding: 8px;
 	position: relative;
-	margin: 10px;
+	margin: 4px 10px 30px 10px;
+	overflow: auto;
+	font-size: 14px;
 }
-.media img {
+.song-box img {
 	width: 64px;
 	height: 64px;
 	margin-right: 10px;

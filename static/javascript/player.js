@@ -36,12 +36,15 @@ $( document ).ready(function() {
 
 	}
 
+
+	var songTemplateSource   = $("#song-template").html();
+	var songTemplate = Handlebars.compile(songTemplateSource);
 	function updateNowPlaying(nowPlayingData) {
-		var nowPlaying = $(".now_playing");
-		$(".title", nowPlaying).text(nowPlayingData.title);
-		$(".author", nowPlaying).text(nowPlayingData.author);
-		$(".duration", nowPlaying).text(nowPlayingData.duration + " seconds");
-		$("img", nowPlaying).attr('src', '//img.youtube.com/vi/'+nowPlayingData.cid+'/hqdefault.jpg')
+		var nowPlayingWrapper = $(".now-playing .now-playing-wrapper");
+
+		nowPlayingData.imgSrc = '//img.youtube.com/vi/'+nowPlayingData.cid+'/hqdefault.jpg';
+
+		nowPlayingWrapper.html( songTemplate(nowPlayingData) );
 	}
 
 

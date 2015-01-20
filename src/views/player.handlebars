@@ -3,13 +3,10 @@
 
 	<div class="logo"><img src="http://tastycat.net/images/tastycatheader.png"></div>
 
-	<div class="now_playing">
+	<div class="now-playing">
 		<label>Now Playing</label>
-		<div class="media">
-			<img src="">
-			<div class="title"></div>
-			<div class="author"></div>
-			<div class="duration"></div>
+		<div class="now-playing-wrapper">
+
 		</div>
 	</div>
 
@@ -20,6 +17,16 @@
 	<p>Press "Play" to Tastycat</p>
 
 
+<script id="song-template" type="text/x-handlebars-template">
+	<div class="song-box">
+		<img src="\{{imgSrc}}">
+		<div class="title">\{{title}}</div>
+		<div class="author">\{{author}}</div>
+		<div class="duration">\{{duration}}</div>
+	</div>
+</script>
 
+
+<script type="text/javascript" src="/javascript/handlebars-v2.0.0.js"></script>
 <script type="text/javascript" src="/javascript/player.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/player.css">
