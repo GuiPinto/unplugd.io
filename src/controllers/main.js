@@ -1,5 +1,6 @@
 var Media = require('../models').Media;
 var MediaController = require('./media');
+var url = require('url');
 
 module.exports.initSocket = function (io, socket) {
 	var socketId = socket.id;
@@ -29,7 +30,9 @@ module.exports.initSocket = function (io, socket) {
 
 
 module.exports.songChange = function (req, res, io) {
-	var songData = req.body;
+	var params = url.parse(req.url, true).query;
+
+	var songData = [ JSON.parse(params.nowPlaying) ];
 
 	MediaController.processSongUpdate(
 		songData,
