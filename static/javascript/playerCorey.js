@@ -1,53 +1,56 @@
 $( document ).ready(function() {
 
 	var socket = io();
+	var playlistContainer = $(".playlist-container");
 
 	socket.on('connect', function () {
 		console.log("Connected to Socket Server");
 	});
 
 	socket.on('init', function (data) {
-		console.log('init', data);
-		init(data);
+		initializePlaylist(data);
 	});
 
 	socket.on('song_change', function (data) {
 		console.log('song_change', data);
-		init(data);
+		songChange(data.nowPlaying);
 	});
 
-	function init(initData) {
-		processPlaylist(initData.nowPlaying, initData.history)
+	function initializePlaylist(initData) {
+		var nowPlayingData = initData.nowPlaying;
+		var historyData = initData.history;
+		playlistContainer.html('');
+		historyData.reverse();
+		historyData.forEach(function(historyObj){
+			createPlaylistItem(historyObj, playlistContainer, false);
+		});
+		createPlaylistItem(nowPlayingData, playlistContainer, false);
 	}
 
-	function processPlaylist(nowPlayingData, historyData) {
-		var playlistContainer = $(".playlist-container");
-
-		playlistContainer.html('');
-
-		createPlaylistItem(nowPlayingData, playlistContainer);
-
-		historyData.forEach(function(historyObj){
-
-			createPlaylistItem(historyObj, playlistContainer);
-
-		});
-
+	function songChange(nowPlayingData) {
+		createPlaylistItem(nowPlayingData, playlistContainer, true);
 	}
 
 
 	var playlistItemTemplateSource   = $("#playlist-item-template").html();
 	var playlistItemTemplate = Handlebars.compile(playlistItemTemplateSource);
-	function createPlaylistItem(mediaData, playlistContainer) {
+	function createPlaylistItem(mediaData, playlistContainer, animated) {
 
 		mediaData.imgSrc = '//img.youtube.com/vi/'+mediaData.cid+'/hqdefault.jpg';
 
 		mediaData.time = convertDurationToTime(mediaData.duration);
 
-		var playlistItem = playlistItemTemplate(mediaData);
+		var playlistItem = $( playlistItemTemplate(mediaData) );
 
 		// Inject
-		playlistContainer.html( playlistContainer.html() + playlistItem );
+		playlistItem.prependTo( playlistContainer );
+
+		// Animate
+		if (animated) {
+			playlistItem.hide();
+			playlistItem.slideDown("slow");
+		}
+
 	}
 
 	function convertDurationToTime(time) {

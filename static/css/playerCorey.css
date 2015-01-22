@@ -12,6 +12,7 @@ body {
 }
 audio {
 	color: #333;
+	padding: 10px;
 }
 
 .player-container {
@@ -61,16 +62,18 @@ audio {
 .playlist-item .top-label {
 	position: absolute;
 	top: 5px;
-	left: 5px;
+	left: 10px;
 }
 
 .playlist-item .bottom-label {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	line-height: 32px;
-	background-color: #000;
-	opacity: 0.70;
+    background-color: #1e1e1e;
+    bottom: 0;
+    left: 0;
+    line-height: 32px;
+    opacity: 0.9;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    white-space: nowrap;
 }
 
