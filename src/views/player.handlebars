@@ -1,3 +1,4 @@
+
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
 
@@ -10,7 +11,7 @@
 		</div>
 	</div>
 
-    <audio controls>
+    <audio id="audio" controls>
       <source src="http://104.236.41.91:8000/tastycat" />
     </audio>
 
@@ -25,16 +26,17 @@
 	</div>
 
 
-<script id="song-template" type="text/x-handlebars-template">
-	<div class="song-box">
-		<img src="\{{imgSrc}}">
-		<div class="title">\{{title}}</div>
-		<div class="author">\{{author}}</div>
-		<div class="duration">\{{time}}</div>
-	</div>
-</script>
+	<script id="song-template" type="text/x-handlebars-template">
+		<div class="song-box">
+			<img src="\{{imgSrc}}">
+			<div class="title">\{{title}}</div>
+			<div class="author">\{{author}}</div>
+			<div class="duration">\{{time}}</div>
+		</div>
+	</script>
 
 
 <script type="text/javascript" src="/javascript/handlebars-v2.0.0.js"></script>
+<script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
 <script type="text/javascript" src="/javascript/player.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/player.css">

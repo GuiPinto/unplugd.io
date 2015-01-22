@@ -1,0 +1,27 @@
+
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+	<div class="player-container">
+	    <audio id="audio" controls>
+	      <source src="http://104.236.41.91:8000/tastycat" />
+	    </audio>
+	</div>
+
+	<div class="playlist-container">
+
+	</div>
+
+
+	<script id="playlist-item-template" type="text/x-handlebars-template">
+		<div class="playlist-item">
+			<div class="backdrop"><img src="\{{imgSrc}}" /></div>
+			<div class="top-label">\{{time}}</div>
+			<div class="bottom-label">\{{title}}</div>
+		</div>
+	</script>
+
+
+<script type="text/javascript" src="/javascript/handlebars-v2.0.0.js"></script>
+<script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
+<script type="text/javascript" src="/javascript/playerCorey.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/playerCorey.css">

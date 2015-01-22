@@ -15,12 +15,28 @@ module.exports.index = function (req, res) {
 	}
 
 	res.render('player');
-}
+};
 
 
 module.exports.desktopPlayer = function (req, res) {
 	res.render('desktopPlayer');
-}
+};
+
+
+
+module.exports.coverPage = function (req, res) {
+	var params = url.parse(req.url, true).query;
+
+	var agent = ua(req.headers['user-agent']);
+
+	var isMobile = agent.Mobile || false;
+
+	if (!isMobile && (!params.embed && !params.mobile)) {
+		return res.redirect("/desktop");
+	}
+
+	res.render('playerCorey');
+};
 
 
 

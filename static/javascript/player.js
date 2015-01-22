@@ -30,7 +30,28 @@ $( document ).ready(function() {
 
 	});
 
+	$(".now-playing").click(function() {
+		$("#audio").trigger('play');
+	});
 
+	/*
+	$("#audio").on('loadstart', function() {
+		console.log("loadstart();")
+	});
+
+	$("#audio").on('loaded', function() {
+		console.log("loaded();")
+	});
+
+	$("#audio").on('loadedmetadata', function() {
+		console.log('canloadedmetadataplay');
+		//$("#audio").trigger('play');
+		alert('ok');
+		$("#audio").trigger('play');
+    });
+
+	$("#audio").trigger('play');
+	*/
 
 	function init(initData) {
 
@@ -54,6 +75,8 @@ $( document ).ready(function() {
 
 		nowPlayingData.time = convertDurationToTime(nowPlayingData.duration);
 
+		nowPlayingWrapper.data('media', nowPlayingData);
+
 		nowPlayingWrapper.html( songTemplate(nowPlayingData) );
 	}
 
@@ -67,6 +90,8 @@ $( document ).ready(function() {
 			historyObj.imgSrc = '//img.youtube.com/vi/'+historyObj.cid+'/hqdefault.jpg';
 
 			historyObj.time = convertDurationToTime(historyObj.duration);
+
+			historyWrapper.data('media', historyObj);
 
 			historyWrapper.html(
 				historyWrapper.html() +
@@ -87,6 +112,30 @@ $( document ).ready(function() {
 	    var time    = minutes+':'+seconds;
 	    return time;
 	}
+
+
+
+	var player;
+      function onYouTubeIframeAPIReady() {
+      	alert('ok');
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'M7lc1UVf-VE',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+$(".history-wrapper").on("click", ".song-box", function() {
+	console.log('click');
+	console.log($("this").data('media'));
+});
+
+
+
 
 
 

@@ -1,0 +1,76 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	background-color: #333;
+	color: #fff;
+	font-family: "HelveticaNeue", Verdana, Geneva, sans-serif;
+}
+body {
+	text-align: center;
+	overflow-y: scroll; /* has to be scroll, not auto */
+	-webkit-overflow-scrolling: touch;
+}
+audio {
+	color: #333;
+}
+
+.player-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.playlist-container {
+	margin-top: 40px;
+
+}
+
+.playlist-item {
+	position: relative;
+	width: 380px;
+	height: 210px;
+	overflow: hidden;
+}
+.playlist-item .backdrop {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: -35px;
+    z-index: 0;
+    width: 380px;
+    height: 280px;
+}
+.playlist-item .backdrop img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(1);
+}
+.playlist-item:first-child .backdrop img {
+	filter: none;
+	-webkit-filter: grayscale(0);
+}
+
+.playlist-item .top-label {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+}
+
+.playlist-item .bottom-label {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	line-height: 32px;
+	background-color: #000;
+	opacity: 0.70;
+}
+

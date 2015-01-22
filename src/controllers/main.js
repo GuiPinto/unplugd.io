@@ -16,14 +16,14 @@ module.exports.initSocket = function (io, socket) {
 
     socket.on('join', function(publisherId){
         console.log('JOIN, publisherId:',publisherId);
-        io.emit('much connect');
+        socket.emit('much connect');
     });
 
     // Prepare initial data
 
 	// Initialize conversation
 	MediaController.generateInitialData(function(initData) {
-	    io.emit('init', initData);
+	    socket.emit('init', initData);
 	});
 
 };
