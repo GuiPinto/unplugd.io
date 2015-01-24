@@ -14,7 +14,7 @@ module.exports.index = function (req, res) {
 		return res.redirect("/desktop");
 	}
 
-	res.render('player');
+	res.render('playerCorey');
 };
 
 
