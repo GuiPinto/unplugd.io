@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 var md5 = require('MD5');
 
 
-
 var MediaModel;
 var MediaSchema = new Schema({
 	id: { type: String, required: true, unique: true },

@@ -1,42 +1,20 @@
 
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-
-
-	<div class="logo"><img src="http://tastycat.net/images/tastycatheader.png"></div>
-
-	<div class="now-playing">
-		<label>Now Playing</label>
-		<div class="now-playing-wrapper">
-
-		</div>
+	<div class="player-container">
+	    <audio id="audio" controls>
+	      <source src="http://50.7.71.27:9535/live" />
+	    </audio>
 	</div>
 
-    <audio id="audio" controls>
-      <source src="http://50.7.71.27:9535/live" />
-    </audio>
+	<div class="playlist-container">
 
-	<p>Press "Play" to Tastycat</p>
-
-
-	<div class="play-history">
-		<label>Play History</label>
-		<div class="history-wrapper">
-
-		</div>
 	</div>
 
 
-	<script id="song-template" type="text/x-handlebars-template">
-		<div class="song-box">
-			<img src="\{{imgSrc}}">
-			<div class="title">\{{title}}</div>
-			<div class="author">\{{author}}</div>
-			<div class="duration">\{{time}}</div>
+	<script id="playlist-item-template" type="text/x-handlebars-template">
+		<div class="playlist-item">
+			<div class="backdrop"><img src="\{{imgSrc}}" /></div>
+			<div class="top-label"></div>
+			<div class="bottom-label">\{{title}}</div>
 		</div>
 	</script>
 
-
-<script type="text/javascript" src="/javascript/handlebars-v2.0.0.js"></script>
-<script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
-<script type="text/javascript" src="/javascript/player.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/player.css">

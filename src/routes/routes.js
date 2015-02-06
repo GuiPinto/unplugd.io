@@ -12,6 +12,5 @@ module.exports = function(app, io){
 
 	app.get('/', player.index);
 	app.get('/desktop', player.desktopPlayer);
-	app.get('/coreysVersion', player.coverPage);
 
 };

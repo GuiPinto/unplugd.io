@@ -8,56 +8,102 @@ html, body {
 body {
 	text-align: center;
 }
-.logo {
-	margin: 120px auto 80px auto;
-}
-.logo img {
-	width: 60%;
-}
 audio {
-	color: #1F1F21;
+	color: #333;
+	padding: 10px;
 }
 
+.player-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.playlist-container {
+	margin-top: 40px;
 
-.now-playing {
-	text-align: left;
-	margin: 0px 20px 20px 20px;
-}
-.now-playing label {
-	display: block;
-}
-
-.play-history {
-	text-align: left;
-	margin: 50px 20px 20px 20px;
-}
-.play-history label {
-	display: block;
-}
-.play-history .history-wrapper {
-	max-height: 360px;
-	overflow: hidden;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
 }
 
-
-.song-box {
-	background-color: #444;
-	border: 1px solid #666;
-	border-radius: 3px;
-	padding: 8px;
+.playlist-item {
 	position: relative;
-	margin: 5px 0px;
-	overflow: auto;
-	font-size: 13px;
+	width: 380px;
+	height: 210px;
+	overflow: hidden;
 }
-.song-box img {
-	width: 64px;
-	height: 64px;
-	margin-right: 10px;
-	float: left;
+.playlist-item:first-child {
+    /*height: 210px;*/
 }
-.song-box .title {
+.playlist-item .backdrop {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: -35px;
+    z-index: 0;
+    width: 380px;
+    height: 280px;
+}
+.playlist-item .backdrop img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	filter: grayscale(100%) blur(4px);
+	-webkit-filter: grayscale(1) blur(4px);
+}
+.playlist-item:first-child .backdrop img {
+	filter: none;
+	-webkit-filter: grayscale(0);
+}
+
+.playlist-item:first-child:before {
+	position: absolute;
+	content: "Live";
+	top: 5px;
+	right: 5px;
 	font-weight: bold;
+	padding: 5px 10px 5px 35px;
+	background-color: black;
+	color: #FFF;
+	z-index: 10;
 }
+
+.playlist-item:first-child:after {
+	position: absolute;
+	content: " ";
+	color: #FFF;
+	width: 15px;
+	height: 15px;
+	background: red;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	z-index: 11;
+	right: 58px;
+    top: 12px;
+}
+
+
+
+.playlist-item .top-label {
+	position: absolute;
+	top: 5px;
+	left: 10px;
+}
+
+.playlist-item .bottom-label {
+    background-color: #1e1e1e;
+    bottom: 0;
+    left: 0;
+    line-height: 36px;
+    opacity: 0.9;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    white-space: nowrap;
+}
+

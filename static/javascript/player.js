@@ -1,103 +1,55 @@
 $( document ).ready(function() {
 
-
-
 	var socket = io();
+	var playlistContainer = $(".playlist-container");
 
 	socket.on('connect', function () {
 		console.log("Connected to Socket Server");
 	});
 
-	socket.on('time', function (time) {
-		console.log(time);
-	});
-
 	socket.on('init', function (data) {
-		console.log('init', data);
-		init(data);
+		initializePlaylist(data);
 	});
 
 	socket.on('song_change', function (data) {
 		console.log('song_change', data);
-
-		if (data.nowPlaying) {
-			updateNowPlaying(data.nowPlaying);
-		}
-
-		if (initData.history) {
-			updateHistory(initData.history);
-		}
-
+		songChange(data.nowPlaying);
 	});
 
-	$(".now-playing").click(function() {
-		$("#audio").trigger('play');
-	});
-
-	/*
-	$("#audio").on('loadstart', function() {
-		console.log("loadstart();")
-	});
-
-	$("#audio").on('loaded', function() {
-		console.log("loaded();")
-	});
-
-	$("#audio").on('loadedmetadata', function() {
-		console.log('canloadedmetadataplay');
-		//$("#audio").trigger('play');
-		alert('ok');
-		$("#audio").trigger('play');
-    });
-
-	$("#audio").trigger('play');
-	*/
-
-	function init(initData) {
-
-		if (initData.nowPlaying) {
-			updateNowPlaying(initData.nowPlaying);
-		}
-
-		if (initData.history) {
-			updateHistory(initData.history);
-		}
-
-	}
-
-
-	var songTemplateSource   = $("#song-template").html();
-	var songTemplate = Handlebars.compile(songTemplateSource);
-	function updateNowPlaying(nowPlayingData) {
-		var nowPlayingWrapper = $(".now-playing .now-playing-wrapper");
-
-		nowPlayingData.imgSrc = '//img.youtube.com/vi/'+nowPlayingData.cid+'/hqdefault.jpg';
-
-		nowPlayingData.time = convertDurationToTime(nowPlayingData.duration);
-
-		nowPlayingWrapper.data('media', nowPlayingData);
-
-		nowPlayingWrapper.html( songTemplate(nowPlayingData) );
-	}
-
-	function updateHistory(historyData) {
-		var historyWrapper = $(".play-history .history-wrapper");
-
-		historyWrapper.html('');
-
+	function initializePlaylist(initData) {
+		var nowPlayingData = initData.nowPlaying;
+		var historyData = initData.history;
+		playlistContainer.html('');
+		historyData.reverse();
 		historyData.forEach(function(historyObj){
-
-			historyObj.imgSrc = '//img.youtube.com/vi/'+historyObj.cid+'/hqdefault.jpg';
-
-			historyObj.time = convertDurationToTime(historyObj.duration);
-
-			historyWrapper.data('media', historyObj);
-
-			historyWrapper.html(
-				historyWrapper.html() +
-				songTemplate(historyObj)
-			);
+			createPlaylistItem(historyObj, playlistContainer, false);
 		});
+		createPlaylistItem(nowPlayingData, playlistContainer, false);
+	}
+
+	function songChange(nowPlayingData) {
+		createPlaylistItem(nowPlayingData, playlistContainer, true);
+	}
+
+
+	var playlistItemTemplateSource   = $("#playlist-item-template").html();
+	var playlistItemTemplate = Handlebars.compile(playlistItemTemplateSource);
+	function createPlaylistItem(mediaData, playlistContainer, animated) {
+
+		mediaData.imgSrc = '//img.youtube.com/vi/'+mediaData.cid+'/hqdefault.jpg';
+
+		mediaData.time = convertDurationToTime(mediaData.duration);
+
+		var playlistItem = $( playlistItemTemplate(mediaData) );
+
+		// Inject
+		playlistItem.prependTo( playlistContainer );
+
+		// Animate
+		if (animated) {
+			playlistItem.hide();
+			playlistItem.slideDown("slow");
+		}
 
 	}
 
@@ -114,7 +66,7 @@ $( document ).ready(function() {
 	}
 
 
-
+/*
 	var player;
       function onYouTubeIframeAPIReady() {
       	alert('ok');
@@ -129,14 +81,11 @@ $( document ).ready(function() {
         });
       }
 
-$(".history-wrapper").on("click", ".song-box", function() {
-	console.log('click');
-	console.log($("this").data('media'));
-});
-
-
-
-
+	$(".history-wrapper").on("click", ".song-box", function() {
+		console.log('click');
+		console.log($("this").data('media'));
+	});
+*/
 
 
 });
