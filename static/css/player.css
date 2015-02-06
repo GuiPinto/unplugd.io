@@ -7,12 +7,33 @@ html, body {
 }
 body {
 	text-align: center;
+	overflow: auto;
+    max-width:100%;
+}
+body.controls-open {
+	overflow: hidden;
 }
 audio {
 	color: #333;
 	padding: 10px;
 }
 
+.log {
+	display: none;
+	position: fixed;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	height: 100px;
+	overflow: scroll;
+	z-index: 9999;
+	white-space: pre;
+	text-align: left;
+	border: 1px solid #333;
+	margin: 10px;
+	padding: 5px;
+	background-color: rgba(28, 28, 28, 0.9);
+}
 .player-container {
 	position: absolute;
 	top: 0;
@@ -21,10 +42,58 @@ audio {
 	height: 40px;
 	text-align: center;
 	margin-bottom: 20px;
+	display: none;
 }
 .playlist-container {
-	margin-top: 40px;
 
+}
+.player-controls-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	display: table;
+	visibility:none;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(28, 28, 28, 0.9);
+	transition:visibility 0s linear 0.3s, opacity 0.3s linear;
+	pointer-events: none;
+}
+body.controls-open .player-controls-wrapper {
+	visibility:visible;
+	opacity:1;
+	transition-delay:0s;
+	pointer-events: auto;
+}
+.player-controls {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.player-controls .controls .button {
+	display: none;
+	width: 200px;
+	height: 200px;
+	margin: 20px auto;
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.player-controls .controls .play-button {
+	background-image: url('../images/play-btn.png');
+}
+.player-controls .controls .pause-button {
+	outline: 1px solid gray;
+	background-image: url('../images/pause-btn.png');
 }
 
 .playlist-item {
@@ -95,15 +164,19 @@ audio {
 	left: 10px;
 }
 
+.playlist-item .bottom-label-wrapper {
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	height: 50px;
+	width: 100%;
+	display: table;
+    background-color: rgba(30, 30, 30, 0.8);
+}
 .playlist-item .bottom-label {
-    background-color: #1e1e1e;
-    bottom: 0;
-    left: 0;
-    line-height: 36px;
-    opacity: 0.9;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    white-space: nowrap;
+   display: table-cell;
+   text-align: center;
+   vertical-align: middle;
 }
 

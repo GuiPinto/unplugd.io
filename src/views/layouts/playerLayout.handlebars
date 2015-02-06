@@ -4,7 +4,9 @@
 		<meta charset="utf-8" />
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+		<meta name="mobile-web-app-capable" content="yes">
+		 <meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport" />
+		<meta name="apple-mobile-web-app-title" content="Unplugd">
 
 		<title>Unplugd.io</title>
 
@@ -12,11 +14,21 @@
 		<script type="text/javascript" src="/javascript/handlebars-v2.0.0.js"></script>
 		<script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
 		<script type="text/javascript" src="/javascript/player.js"></script>
+		<script type="text/javascript" src="/javascript/addtohomescreen.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+
 		<link rel="stylesheet" type="text/css" href="/css/player.css">
-		<script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/addtohomescreen.css">
+
+		<link rel="apple-touch-icon" href="/images/favicon/60.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/76.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/120.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/152.png">
+		<link rel="apple-touch-icon-precomposed" href="/images/favicon/152.png">
 
 	</head>
-	<body>
+	<body class="controls-open">
 		{{{body}}}
 	</body>
 </html>

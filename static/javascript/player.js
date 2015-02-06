@@ -2,6 +2,14 @@ $( document ).ready(function() {
 
 	var socket = io();
 	var playlistContainer = $(".playlist-container");
+	var el = {
+		body: $("body"),
+		player: $(".player-container audio"),
+		playButton: $(".player-controls .play-button"),
+		pauseButton: $(".player-controls .pause-button"),
+		statusBar: $(".player-controls .status")
+	};
+	var player = el.player[0];
 
 	socket.on('connect', function () {
 		console.log("Connected to Socket Server");
@@ -12,7 +20,7 @@ $( document ).ready(function() {
 	});
 
 	socket.on('song_change', function (data) {
-		console.log('song_change', data);
+		//console.log('song_change', data);
 		songChange(data.nowPlaying);
 	});
 
@@ -64,6 +72,81 @@ $( document ).ready(function() {
 	    var time    = minutes+':'+seconds;
 	    return time;
 	}
+
+	if (addToHomescreen) {
+		//addToHomescreen({
+		//    detectHomescreen: true
+		//});
+	}
+
+	// Initialize
+	el.playButton.hide();
+	el.pauseButton.hide();
+	el.statusBar.text("Waiting");
+	el.body.addClass('controls-open');
+
+	// Play button
+	el.playButton.click(function() {
+		player.play();
+	});
+
+	// Pause button
+	el.pauseButton.click(function() {
+		player.pause();
+		// Hide pause, show play
+		el.pauseButton.hide();
+		el.playButton.show();
+	});
+
+	// on-playing (hide modal)
+	el.player.bind('playing', function(event) {
+		el.statusBar.text("Playing");
+		// Hide play, show pause
+		el.playButton.hide();
+		el.pauseButton.show();
+		// Close controls
+		el.body.removeClass('controls-open');
+    });
+
+	// on-loadeddata (show modal w/ play button)
+	el.player.bind('loadeddata', function(event) {
+		// Hide pause, show play, change statusbar
+		el.pauseButton.hide();
+		el.playButton.show();
+		el.statusBar.text("Press play to start.");
+		// Open controls
+		el.body.addClass('controls-open');
+    });
+
+	// on-error/stalled (show modal)
+	el.player.bind('waiting stalled pause error ended', function(event) {
+		el.statusBar.text("Status: " + event.type);
+		// Hide pause, show play
+		el.pauseButton.hide();
+		el.playButton.show();
+		// Open controls
+		el.body.addClass('controls-open');
+    });
+
+	el.player.bind('abort canplay canplaythrough \
+		durationchange emptied ended error \
+		interruptbegin interruptend loadeddata \
+		loadedmetadata loadstart mozaudioavailable \
+		pause play playing progress ratechange seeked \
+		seeking stalled suspend \
+		volumechange waiting',
+	function(event) {
+		var type = event.type;
+		var dd = $(".log").text();
+		$(".log").text( type + "\n" + dd);
+    });
+
+
+	$( ".playlist-container" ).on( "click", ".playlist-item", function() {
+		if ($(this).is(":last-child")) {
+			$(".log").show();
+		}
+	});
 
 
 /*

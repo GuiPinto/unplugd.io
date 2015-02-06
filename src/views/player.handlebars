@@ -1,20 +1,33 @@
 
+	<div class="log"></div>
+
 	<div class="player-container">
-	    <audio id="audio" controls>
+	    <audio controls>
 	      <source src="http://50.7.71.27:9535/live" />
 	    </audio>
 	</div>
 
-	<div class="playlist-container">
-
+	<div class="player-controls-wrapper">
+		<div class="player-controls">
+			<div class="controls">
+				<div class="button play-button"></div>
+				<div class="button pause-button"></div>
+			</div>
+			<div class="status"></div>
+		</div>
 	</div>
 
+	<div class="playlist-container scrollable">
+
+	</div>
 
 	<script id="playlist-item-template" type="text/x-handlebars-template">
 		<div class="playlist-item">
 			<div class="backdrop"><img src="\{{imgSrc}}" /></div>
 			<div class="top-label"></div>
-			<div class="bottom-label">\{{title}}</div>
+			<div class="bottom-label-wrapper">
+				<div class="bottom-label">\{{title}}</div>
+			</div>
 		</div>
 	</script>
 
