@@ -124,7 +124,7 @@ $(function() {
     });
 
 	// on-error/stalled (show modal)
-	el.player.bind('waiting stalled error ended', function(event) {
+	el.player.bind('waiting error ended', function(event) {
 		var type = event.type;
 		if (type == 'waiting')
 			el.statusBar.text("Loading..");
@@ -148,8 +148,8 @@ $(function() {
 		durationchange emptied ended error \
 		interruptbegin interruptend loadeddata \
 		loadedmetadata loadstart mozaudioavailable \
-		pause play playing progress ratechange seeked \
-		seeking stalled suspend volumechange waiting',
+		pause play playing ratechange seeked \
+		seeking stalled suspend volumechange waiting', //progress
 	function(event) {
 		var log = $(".log").text();
 		$(".log").text( (+new Date) + ": " + event.type + "\n" + log);
