@@ -109,7 +109,7 @@ body.controls-open .player-controls-wrapper {
 }
 .player-controls .now-playing {
 	vertical-align: top;
-	margin: 50px auto 40px auto;
+	margin: 50px auto 15px auto;
 }
 
 .player-controls .controls .button {
@@ -132,7 +132,6 @@ body.controls-open .player-controls-wrapper {
 
 .playlist-item {
 	position: relative;
-	width: 380px;
 	height: 210px;
 	overflow: hidden;
 }
@@ -146,7 +145,6 @@ body.controls-open .player-controls-wrapper {
     right: 0;
     top: -35px;
     z-index: 0;
-    width: 380px;
     height: 280px;
 }
 .playlist-item .backdrop img {
