@@ -136,6 +136,14 @@ $(function() {
 		el.body.addClass('controls-open');
     });
 
+
+	if ('standalone' in navigator &&
+		navigator.standalone === true) {
+  		el.statusBar.html("Sorry.. An existing bug in iOS is preventing <br />\
+  			the HTML5 audio element from functioning <br /> while in \"Home Screen\" mode.<br /><br /><br />\
+  			While this bug exists, you can visit<br /> http://unplugd.io directly from your browser.");
+	}
+
 	el.player.bind('abort canplay canplaythrough \
 		durationchange emptied ended error \
 		interruptbegin interruptend loadeddata \
