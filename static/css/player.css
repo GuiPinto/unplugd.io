@@ -34,10 +34,8 @@ body.prevent-scroll {
 }
 
 .header-bar .brand {
-	font-weight: bold;
 	display: inline-block;
-	margin: 10px;
-
+	margin: 12px;
 }
 
 .header-bar .online {
@@ -53,15 +51,17 @@ body.prevent-scroll {
 	bottom: 0px;
 	left: 0;
 	right: 0;
-	height: 100px;
+	height: 80px;
 	overflow: scroll;
+	font-size: 11px;
 	z-index: 9999;
 	white-space: pre;
 	text-align: left;
 	border: 1px solid #333;
-	margin: 10px;
-	padding: 5px;
+	margin: 5px;
+	padding: 3px;
 	background-color: rgba(28, 28, 28, 0.9);
+	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 }
 .player-container {
 	position: absolute;
@@ -90,7 +90,7 @@ body.prevent-scroll {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(28, 28, 28, 0.9);
-	transition:visibility 0s linear 0.1s, opacity 0.1s linear;
+	transition:visibility 0s linear 0.2s, opacity 0.2s linear;
 	pointer-events: none;
 }
 body.controls-open .player-controls-wrapper {
@@ -100,31 +100,35 @@ body.controls-open .player-controls-wrapper {
 	pointer-events: auto;
 }
 .player-controls {
-	display: table-cell;
+	/*display: table-cell;*/
+	display: block;
 	text-align: center;
 	vertical-align: middle;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+.player-controls .now-playing {
+	vertical-align: top;
+	margin: 50px auto 40px auto;
+}
 
 .player-controls .controls .button {
-	display: none;
 	width: 200px;
 	height: 200px;
-	margin: 20px auto;
+	margin: 0 auto;
 	background-position: center;
 	background-size: 100%;
 	background-repeat: no-repeat;
 	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.3s linear;
 }
-
+.player-controls .controls .button.active {
+	opacity: 1;
+}
 .player-controls .controls .play-button {
 	background-image: url('../images/play-btn.png');
-}
-.player-controls .controls .pause-button {
-	outline: 1px solid gray;
-	background-image: url('../images/pause-btn.png');
 }
 
 .playlist-item {
@@ -152,8 +156,8 @@ body.controls-open .player-controls-wrapper {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	filter: grayscale(100%) blur(4px);
-	-webkit-filter: grayscale(1) blur(4px);
+	filter: grayscale(100%) blur(3px);
+	-webkit-filter: grayscale(1) blur(3px);
 }
 
 .playlist-item:first-child .backdrop img {

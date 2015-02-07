@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(function() {
 
 	var playlistContainer = $(".playlist-container");
 	var el = {
@@ -78,8 +78,8 @@ $( document ).ready(function() {
 
 	function swapBrokenImages() {
 		$(".playlist-item .backdrop img").each(function() {
-			var w = $(this)[0].naturalWidth,
-				h = $(this)[0].naturalHeight;
+			if ($(this).hasClass('swapped')) return;
+			var w = $(this)[0].naturalWidth, h = $(this)[0].naturalHeight;
 			if ((w == 120 && h == 90) || (w == 0 && h ==0)) {
 				var rndImg = "/images/swappables/" + (Math.floor(Math.random() * 5) + 1) + ".jpg";
 				$(this).attr('src', rndImg).addClass('swapped');
@@ -88,12 +88,12 @@ $( document ).ready(function() {
 	}
 
 	// Initialize
-	el.playButton.hide();
 	el.statusBar.text("Connecting to server..");
 	el.body.addClass('controls-open');
 
 	// Play button
 	el.playButton.click(function(e) {
+		if (!$(this).hasClass('active')) return;
 		player.play();
 		e.stopPropagation();
 	});
@@ -101,7 +101,7 @@ $( document ).ready(function() {
 	// Pause (playlist-tap)
 	el.playlistContainer.click(function() {
 		el.statusBar.text("Paused");
-		el.playButton.show();
+		el.playButton.addClass('active');
 		// Open controls-open
 		el.body.addClass('controls-open');
 		player.pause();
@@ -109,7 +109,6 @@ $( document ).ready(function() {
 
 	// on-playing (hide modal)
 	el.player.bind('playing', function(event) {
-		el.statusBar.text("Playing");
 		// Close controls
 		el.body.removeClass('controls-open');
     });
@@ -118,7 +117,7 @@ $( document ).ready(function() {
 	el.player.bind('loadeddata', function(event) {
 		el.statusBar.text("Press play to start.");
 		// Hide pause, show play, change statusbar
-		el.playButton.show();
+		el.playButton.addClass('active');
 		// Open controls
 		el.body.addClass('controls-open');
     });
@@ -131,7 +130,7 @@ $( document ).ready(function() {
 		else
 			el.statusBar.text("Error - Stream " + type);
 		// Hide pause, show play
-		el.playButton.show();
+		el.playButton.addClass('active');
 		// Open controls-open
 		el.body.addClass('controls-open');
     });
@@ -144,7 +143,7 @@ $( document ).ready(function() {
 		seeking stalled suspend volumechange waiting',
 	function(event) {
 		var log = $(".log").text();
-		$(".log").text( event.type + "\n" + log);
+		$(".log").text( (+new Date) + ": " + event.type + "\n" + log);
     });
 	$( ".playlist-container" ).on( "click", ".playlist-item", function() {
 		if ($(this).is(":last-child")) $(".log").show();
