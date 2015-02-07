@@ -115,7 +115,7 @@ $(function() {
     });
 
 	// on-loadeddata (show modal w/ play button)
-	el.player.bind('loadeddata', function(event) {
+	el.player.bind('loadeddata suspend', function(event) {
 		el.statusBar.text("Press play to start.");
 		// Hide pause, show play, change statusbar
 		el.playButton.addClass('active');
