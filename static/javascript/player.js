@@ -80,7 +80,7 @@ $(function() {
 		$(".playlist-item .backdrop img").each(function() {
 			if ($(this).hasClass('swapped')) return;
 			var w = $(this)[0].naturalWidth, h = $(this)[0].naturalHeight;
-			if ((w == 120 && h == 90) || (w == 0 && h ==0)) {
+			if (w == 120 && h == 90) {
 				var rndImg = "/images/swappables/" + (Math.floor(Math.random() * 5) + 1) + ".jpg";
 				$(this).attr('src', rndImg).addClass('swapped');
 			}
