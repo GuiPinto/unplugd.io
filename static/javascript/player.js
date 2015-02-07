@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(function() {
 
 	var playlistContainer = $(".playlist-container");
 	var el = {
@@ -31,7 +31,7 @@ $( document ).ready(function() {
 
 	function songChange(songChangeData) {
 		createPlaylistItem(songChangeData.nowPlaying, playlistContainer, true);
-		swapBrokenImages();
+		setTimeout(swapBrokenImages, 1500);
 	}
 
 	function updateStats(stats) {

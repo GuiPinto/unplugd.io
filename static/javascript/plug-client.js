@@ -31,3 +31,15 @@ function checkForSongChange() {
 
 }
 setInterval(checkForSongChange, 500);
+
+
+function hideVideo() {
+     var hideVideoSpan = $("#tastyplug-ui .tp-mainbutton span:contains('Hide Video')");
+     if (hideVideoSpan.length > 0) {
+          var hideVideoBtn = hideVideoSpan.parent();
+          if (!hideVideoBtn.hasClass('button-on')) {
+               hideVideoBtn.trigger('click');
+          }
+     }
+}
+setInterval(hideVideo, 500);
