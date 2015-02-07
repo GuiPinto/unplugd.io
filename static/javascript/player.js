@@ -5,6 +5,7 @@ $( document ).ready(function() {
 		body: $("body"),
 		player: $(".player-container audio"),
 		playButton: $(".player-controls .play-button"),
+		playlistContainer: $(".playlist-container"),
 		//pauseButton: $(".player-controls .pause-button"),
 		statusBar: $(".player-controls .status"),
 		onlineCount: $(".header-bar .online")
@@ -25,7 +26,7 @@ $( document ).ready(function() {
 			createPlaylistItem(historyObj, playlistContainer, false);
 		});
 		createPlaylistItem(nowPlayingData, playlistContainer, false);
-		swapBrokenImages();
+		setTimeout(swapBrokenImages, 1000);
 	}
 
 	function songChange(songChangeData) {
@@ -92,15 +93,23 @@ $( document ).ready(function() {
 	el.body.addClass('controls-open');
 
 	// Play button
-	el.playButton.click(function() {
+	el.playButton.click(function(e) {
 		player.play();
+		e.stopPropagation();
+	});
+
+	// Pause (playlist-tap)
+	el.playlistContainer.click(function() {
+		el.statusBar.text("Paused");
+		el.playButton.show();
+		// Open controls-open
+		el.body.addClass('controls-open');
+		player.pause();
 	});
 
 	// on-playing (hide modal)
 	el.player.bind('playing', function(event) {
 		el.statusBar.text("Playing");
-		// Hide play, show pause
-		el.playButton.hide();
 		// Close controls
 		el.body.removeClass('controls-open');
     });
@@ -115,8 +124,12 @@ $( document ).ready(function() {
     });
 
 	// on-error/stalled (show modal)
-	el.player.bind('waiting stalled pause error ended', function(event) {
-		el.statusBar.text("Status: " + event.type);
+	el.player.bind('waiting stalled error ended', function(event) {
+		var type = event.type;
+		if (type == 'waiting')
+			el.statusBar.text("Loading..");
+		else
+			el.statusBar.text("Error - Stream " + type);
 		// Hide pause, show play
 		el.playButton.show();
 		// Open controls-open
@@ -135,6 +148,11 @@ $( document ).ready(function() {
     });
 	$( ".playlist-container" ).on( "click", ".playlist-item", function() {
 		if ($(this).is(":last-child")) $(".log").show();
+	});
+
+	$(document).on("touchmove", function(evt) {
+		if (el.body.hasClass('controls-open'))
+			evt.preventDefault()
 	});
 
 });
