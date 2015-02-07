@@ -13,4 +13,11 @@ module.exports = function(app, io){
 	app.get('/', player.index);
 	app.get('/desktop', player.desktopPlayer);
 
+	// Triggers
+
+	// Broadcast Listernet Count
+	setInterval(function() {
+		main.broadcastListernerCount(io);
+	}, 3000); // millisecs
+
 };

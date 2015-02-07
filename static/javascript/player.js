@@ -1,28 +1,20 @@
 $( document ).ready(function() {
 
-	var socket = io();
 	var playlistContainer = $(".playlist-container");
 	var el = {
 		body: $("body"),
 		player: $(".player-container audio"),
 		playButton: $(".player-controls .play-button"),
-		pauseButton: $(".player-controls .pause-button"),
-		statusBar: $(".player-controls .status")
+		//pauseButton: $(".player-controls .pause-button"),
+		statusBar: $(".player-controls .status"),
+		onlineCount: $(".header-bar .online")
 	};
 	var player = el.player[0];
 
-	socket.on('connect', function () {
-		console.log("Connected to Socket Server");
-	});
-
-	socket.on('init', function (data) {
-		initializePlaylist(data);
-	});
-
-	socket.on('song_change', function (data) {
-		//console.log('song_change', data);
-		songChange(data.nowPlaying);
-	});
+	var socket = io();
+	socket.on('init', initializePlaylist);
+	socket.on('song_change', songChange);
+	socket.on('stats', updateStats);
 
 	function initializePlaylist(initData) {
 		var nowPlayingData = initData.nowPlaying;
@@ -33,18 +25,28 @@ $( document ).ready(function() {
 			createPlaylistItem(historyObj, playlistContainer, false);
 		});
 		createPlaylistItem(nowPlayingData, playlistContainer, false);
+		swapBrokenImages();
 	}
 
-	function songChange(nowPlayingData) {
-		createPlaylistItem(nowPlayingData, playlistContainer, true);
+	function songChange(songChangeData) {
+		createPlaylistItem(songChangeData.nowPlayingData, playlistContainer, true);
+		swapBrokenImages();
 	}
 
+	function updateStats(stats) {
+		if (!stats) return;
+		if (stats.totalListeners) {
+			var plural = stats.totalListeners == 1 ? '' : 's';
+			el.onlineCount.text(stats.totalListeners + ' Listener' + plural + ' Online');
+			el.onlineCount.fadeIn('slow');
+		}
+	}
 
 	var playlistItemTemplateSource   = $("#playlist-item-template").html();
 	var playlistItemTemplate = Handlebars.compile(playlistItemTemplateSource);
 	function createPlaylistItem(mediaData, playlistContainer, animated) {
 
-		mediaData.imgSrc = '//img.youtube.com/vi/'+mediaData.cid+'/hqdefault.jpg';
+		mediaData.imgSrc = '//img.youtube.com/vi/'+mediaData.cid+'/sddefault.jpg';
 
 		mediaData.time = convertDurationToTime(mediaData.duration);
 
@@ -73,16 +75,20 @@ $( document ).ready(function() {
 	    return time;
 	}
 
-	if (addToHomescreen) {
-		//addToHomescreen({
-		//    detectHomescreen: true
-		//});
+	function swapBrokenImages() {
+		$(".playlist-item .backdrop img").each(function() {
+			var w = $(this)[0].naturalWidth,
+				h = $(this)[0].naturalHeight;
+			if ((w == 120 && h == 90) || (w == 0 && h ==0)) {
+				var rndImg = "/images/swappables/" + (Math.floor(Math.random() * 5) + 1) + ".jpg";
+				$(this).attr('src', rndImg).addClass('swapped');
+			}
+		});
 	}
 
 	// Initialize
 	el.playButton.hide();
-	el.pauseButton.hide();
-	el.statusBar.text("Waiting");
+	el.statusBar.text("Connecting to server..");
 	el.body.addClass('controls-open');
 
 	// Play button
@@ -90,30 +96,20 @@ $( document ).ready(function() {
 		player.play();
 	});
 
-	// Pause button
-	el.pauseButton.click(function() {
-		player.pause();
-		// Hide pause, show play
-		el.pauseButton.hide();
-		el.playButton.show();
-	});
-
 	// on-playing (hide modal)
 	el.player.bind('playing', function(event) {
 		el.statusBar.text("Playing");
 		// Hide play, show pause
 		el.playButton.hide();
-		el.pauseButton.show();
 		// Close controls
 		el.body.removeClass('controls-open');
     });
 
 	// on-loadeddata (show modal w/ play button)
 	el.player.bind('loadeddata', function(event) {
-		// Hide pause, show play, change statusbar
-		el.pauseButton.hide();
-		el.playButton.show();
 		el.statusBar.text("Press play to start.");
+		// Hide pause, show play, change statusbar
+		el.playButton.show();
 		// Open controls
 		el.body.addClass('controls-open');
     });
@@ -122,9 +118,8 @@ $( document ).ready(function() {
 	el.player.bind('waiting stalled pause error ended', function(event) {
 		el.statusBar.text("Status: " + event.type);
 		// Hide pause, show play
-		el.pauseButton.hide();
 		el.playButton.show();
-		// Open controls
+		// Open controls-open
 		el.body.addClass('controls-open');
     });
 
@@ -133,42 +128,13 @@ $( document ).ready(function() {
 		interruptbegin interruptend loadeddata \
 		loadedmetadata loadstart mozaudioavailable \
 		pause play playing progress ratechange seeked \
-		seeking stalled suspend \
-		volumechange waiting',
+		seeking stalled suspend volumechange waiting',
 	function(event) {
-		var type = event.type;
-		var dd = $(".log").text();
-		$(".log").text( type + "\n" + dd);
+		var log = $(".log").text();
+		$(".log").text( event.type + "\n" + log);
     });
-
-
 	$( ".playlist-container" ).on( "click", ".playlist-item", function() {
-		if ($(this).is(":last-child")) {
-			$(".log").show();
-		}
+		if ($(this).is(":last-child")) $(".log").show();
 	});
-
-
-/*
-	var player;
-      function onYouTubeIframeAPIReady() {
-      	alert('ok');
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: 'M7lc1UVf-VE',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-	$(".history-wrapper").on("click", ".song-box", function() {
-		console.log('click');
-		console.log($("this").data('media'));
-	});
-*/
-
 
 });

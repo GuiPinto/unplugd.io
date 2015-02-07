@@ -3,6 +3,7 @@ html, body {
 	padding: 0;
 	background-color: #333;
 	color: #fff;
+	font-size: 16px;
 	font-family: "HelveticaNeue", Verdana, Geneva, sans-serif;
 }
 body {
@@ -13,9 +14,34 @@ body {
 body.controls-open {
 	overflow: hidden;
 }
-audio {
-	color: #333;
-	padding: 10px;
+
+.header-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	background-color: rgba(28, 28, 28, 0.7);
+	overflow: auto;
+	z-index: 20;
+	text-align: left;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.header-bar .brand {
+	font-weight: bold;
+	display: inline-block;
+	margin: 10px;
+
+}
+
+.header-bar .online {
+	float: right;
+	display: none;
+	margin: 13px;
+	font-size: 12px;
 }
 
 .log {
@@ -45,6 +71,7 @@ audio {
 	display: none;
 }
 .playlist-container {
+	margin-top: 40px;
 
 }
 .player-controls-wrapper {
@@ -86,6 +113,7 @@ body.controls-open .player-controls-wrapper {
 	background-position: center;
 	background-size: 100%;
 	background-repeat: no-repeat;
+	cursor: pointer;
 }
 
 .player-controls .controls .play-button {
@@ -124,9 +152,14 @@ body.controls-open .player-controls-wrapper {
 	filter: grayscale(100%) blur(4px);
 	-webkit-filter: grayscale(1) blur(4px);
 }
+
 .playlist-item:first-child .backdrop img {
 	filter: none;
 	-webkit-filter: grayscale(0);
+}
+.playlist-item:first-child .backdrop img.swapped {
+	filter: blur(2px);
+	-webkit-filter: blur(2px);
 }
 
 .playlist-item:first-child:before {

@@ -2,24 +2,26 @@ var Media = require('../models').Media;
 var MediaController = require('./media');
 var url = require('url');
 
+var totalConnections = 0;
+var totalListeners = 0;
+
 module.exports.initSocket = function (io, socket) {
 	var socketId = socket.id;
 
-	//io.set("transports", ["polling"]);
-	//io.set("polling duration", 10);
+	totalConnections++;
+	totalListeners++;
 
 	console.log("CONNECTED, socketId: ", socketId)
 
 	socket.on('disconnect', function() {
 		console.log('DISCONNECT, socketId:', socketId);
+		totalListeners--;
 	});
 
     socket.on('join', function(publisherId){
         console.log('JOIN, publisherId:',publisherId);
         socket.emit('much connect');
     });
-
-    // Prepare initial data
 
 	// Initialize conversation
 	MediaController.generateInitialData(function(initData) {
@@ -48,4 +50,13 @@ module.exports.songChange = function (req, res, io) {
 		}
 	);
 
+}
+
+module.exports.broadcastListernerCount = function (io) {
+	var listernerCount = {
+		totalConnections: totalConnections,
+		totalListeners: totalListeners
+	};
+	console.log('Listerner Count:',totalListeners,'Total Connections:', totalConnections);
+	io.emit('stats', listernerCount);
 }

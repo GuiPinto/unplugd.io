@@ -15,7 +15,9 @@ module.exports.index = function (req, res) {
 	}
 
 	res.render('player', {
-		layout: 'playerLayout'
+		layout: 'playerLayout',
+		isMobile: isMobile,
+		embedded: params.embed
 	});
 };
 
