@@ -18,11 +18,6 @@ module.exports.initSocket = function (io, socket) {
 		totalListeners--;
 	});
 
-    socket.on('join', function(publisherId){
-        console.log('JOIN, publisherId:',publisherId);
-        socket.emit('much connect');
-    });
-
 	// Initialize conversation
 	MediaController.generateInitialData(function(initData) {
 	    socket.emit('init', initData);
